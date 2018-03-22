@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+import { Input, FormBtn } from "../../components/Form";
 import { FormHeader } from "../../components/Form/FormHeader";
 
 class Home extends Component {
@@ -18,17 +18,17 @@ class Home extends Component {
         url: ''
     };
 
-    componentDidMount() {
-        this.loadArticles();
-      }
+    // componentDidMount() {
+    //     this.loadArticles();
+    //   }
     
-      loadArticles = () => {
-        API.getAllArticles()
-          .then(res =>
-            this.setState({ books: res.data, title: "", date: "", url: "" })
-          )
-          .catch(err => console.log(err));
-      };
+    //   loadArticles = () => {
+    //     API.getAllArticles()
+    //       .then(res =>
+    //         this.setState({ books: res.data, title: "", date: "", url: "" })
+    //       )
+    //       .catch(err => console.log(err));
+    //   };
 
     handleInputChange = event => {
         const { name, value } = event.target;
@@ -40,10 +40,10 @@ class Home extends Component {
     handleFormSubmit = event => {
         event.preventDefault();
         if (this.state.searchTerm) {
-            API.saveArticle({
+            API.postSaved({
                 title: this.state.title,
-                author: this.state.date,
-                synopsis: this.state.url
+                date: this.state.date,
+                url: this.state.url
             })
                 .then(res => this.loadBooks())
                 .catch(err => console.log(err));
@@ -56,7 +56,7 @@ class Home extends Component {
                 <Row>
                     <Col>
                         <Jumbotron>
-                            <h1><i class="fa fa-newspaper-o"></i> New York Times Search</h1>
+                            <h1><i className="fa fa-newspaper-o"></i> New York Times Search</h1>
                         </Jumbotron>
                         <form>
                             <FormHeader>
@@ -85,14 +85,14 @@ class Home extends Component {
                                 disabled={!(this.state.searchTerm)}
                                 onClick={this.handleFormSubmit}
                             >
-                                <i class="fa fa-search"></i> Search
+                                <i className="fa fa-search"></i> Search
                             </FormBtn>
 
                             <FormBtn
                                 disabled={!(this.state.searchTerm)}
                                 onClick={this.handleFormSubmit}
                             >
-                                <i class="fa fa-trash"></i> Clear Results
+                                <i className="fa fa-trash"></i> Clear Results
                             </FormBtn>
                         </form>
                     </Col>
