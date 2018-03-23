@@ -12,23 +12,8 @@ class Home extends Component {
         searchTerm: '',
         articles: [],
         startYear: '',
-        endYear: '',
-        title: '',
-        date: '',
-        url: ''
+        endYear: ''
     };
-
-    // componentDidMount() {
-    //     this.loadArticles();
-    //   }
-    
-    //   loadArticles = () => {
-    //     API.getAllArticles()
-    //       .then(res =>
-    //         this.setState({ books: res.data, title: "", date: "", url: "" })
-    //       )
-    //       .catch(err => console.log(err));
-    //   };
 
     handleInputChange = event => {
         const { name, value } = event.target;
@@ -40,12 +25,9 @@ class Home extends Component {
     handleFormSubmit = event => {
         event.preventDefault();
         if (this.state.searchTerm) {
-            API.postSaved({
-                title: this.state.title,
-                date: this.state.date,
-                url: this.state.url
-            })
-                .then(res => this.loadBooks())
+            API.runQuery(this.state.searchTerm)
+                .then(res => this.setState({ articles: res.docs }))    
+                // .then(({ data: { results } }) => res.json(results))
                 .catch(err => console.log(err));
         }
     };
@@ -90,7 +72,7 @@ class Home extends Component {
 
                             <FormBtn
                                 disabled={!(this.state.searchTerm)}
-                                onClick={this.handleFormSubmit}
+                                // onClick={this.handleFormSubmit}
                             >
                                 <i className="fa fa-trash"></i> Clear Results
                             </FormBtn>
@@ -102,11 +84,15 @@ class Home extends Component {
                         </FormHeader>
                         {this.state.articles.length ? (
                             <List>
-                                {this.state.articles.map(book => (
-                                    <ListItem key={book._id}>
+                                {this.state.articles.map(article => (
+                                    <ListItem key={article._id}>
+                                        <h3>{article.headline.main}</h3>
+                                        <p>{article.pub_date}</p>
+                                        <p>{article.snippet}</p>
+                                        <p><a href={article.web_url}>Go to Full Article</a></p>
                                         {/* <Link to={"/books/" + book._id}>
                                             <strong>
-                                                {book.title} by {book.author}
+                                                {article.title} by {book.author}
                                             </strong>
                                         </Link> */}
                                         {/* <DeleteBtn onClick={() => this.deleteBook(book._id)} /> */}

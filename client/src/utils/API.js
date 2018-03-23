@@ -1,22 +1,21 @@
 import axios from "axios";
 
 export default {
-    runQuery: function (term, start, end) {
+    runQuery: function (searchTerm) {
 
         const APIKey = 'b9f91d369ff59547cd47b931d8cbc56b:0:74623931';
-        const searchTerm = term.trim();
-        const startDate = start.trim() + "0101";
-        const endDate = end.trim() + "1231";
+        const search = searchTerm;
+        // const startDate = start.trim() + "0101";
+        // const endDate = end.trim() + "1231";
 
         return axios.get('https://api.nytimes.com/svc/search/v2/articlesearch.json', {
             params: {
                 'api-key': APIKey,
-                'q': searchTerm,
-                'begin_date': startDate,
-                'end_date': endDate
+                'q': search
+                // 'begin_date': startDate,
+                // 'end_date': endDate
             }
         })
-
             .then(function (results) {
                 return results.data.response;
             });
