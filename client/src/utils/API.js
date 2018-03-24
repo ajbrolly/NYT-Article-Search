@@ -28,8 +28,8 @@ export default {
             })
     },
 
-    postSaved: function (title, date, url) {
-        var newArticle = { title: title, date: date, url: url };
+    postSaved: function (title, date, url, snippet) {
+        var newArticle = { title: title, date: date, url: url, snippet: snippet };
         return axios.post('/api/articles', newArticle)
             .then(function (results) {
                 return results._id;

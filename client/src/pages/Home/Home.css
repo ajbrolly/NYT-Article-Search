@@ -1,0 +1,22 @@
+.btn {
+    margin: 5px 10px;
+}
+
+.btn-article {
+    padding: 10px 15px;
+    color: #ffffff !important;
+    background-color: #18bc9c;
+    border-color: #18bc9c;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 0;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    margin: 5px 10px;
+}
+
+.btn-article:hover {
+    background-color: #139179;
+    border-color: #18bc9c;
+}

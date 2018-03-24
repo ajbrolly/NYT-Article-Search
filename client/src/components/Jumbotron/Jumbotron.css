@@ -1,0 +1,10 @@
+.jumbotron {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.jumbotron h1 {
+    font-family: 'Slabo 27px', serif;
+    font-size: 5em;
+    text-align: center;
+}

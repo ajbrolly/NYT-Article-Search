@@ -3,9 +3,11 @@ import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
 // import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
-import { List, ListItem } from "../../components/List";
+import { List, ListItem, SaveBtn } from "../../components/List";
 import { Input, FormBtn } from "../../components/Form";
 import { FormHeader } from "../../components/Form/FormHeader";
+import "./Home.css";
+
 
 class Home extends Component {
     state = {
@@ -26,11 +28,42 @@ class Home extends Component {
         event.preventDefault();
         if (this.state.searchTerm) {
             API.runQuery(this.state.searchTerm)
-                .then(res => this.setState({ articles: res.docs }))    
+                .then(res => this.setState({ articles: res.docs }))
                 // .then(({ data: { results } }) => res.json(results))
                 .catch(err => console.log(err));
         }
     };
+
+    hanleClearResults = event => {
+        event.preventDefault();
+        this.setState({
+            searchTerm: '',
+            articles: [],
+            startYear: '',
+            endYear: ''
+        });
+    }
+
+    handleSaveArticle = event => {
+        event.preventDefault();
+        API.postSaved({
+            title: this.state.title,
+            date: this.state.date,
+            url: this.state.url,
+            snippet: this.state.snippet
+        })
+            .then(res => this.loadArticles())
+            .catch(err => console.log(err));
+    };
+
+    loadArticles = () => {
+        API.getSaved()
+          .then(res =>
+            this.setState({ articles: res.data })
+          )
+          .catch(err => console.log(err));
+      };
+
 
     render() {
         return (
@@ -38,7 +71,7 @@ class Home extends Component {
                 <Row>
                     <Col>
                         <Jumbotron>
-                            <h1><i className="fa fa-newspaper-o"></i> New York Times Search</h1>
+                            <h1><i className="fa fa-newspaper-o"></i> New York Times Article Search</h1>
                         </Jumbotron>
                         <form>
                             <FormHeader>
@@ -72,7 +105,7 @@ class Home extends Component {
 
                             <FormBtn
                                 disabled={!(this.state.searchTerm)}
-                                // onClick={this.handleFormSubmit}
+                                onClick={this.hanleClearResults}
                             >
                                 <i className="fa fa-trash"></i> Clear Results
                             </FormBtn>
@@ -89,13 +122,13 @@ class Home extends Component {
                                         <h3>{article.headline.main}</h3>
                                         <p>{article.pub_date}</p>
                                         <p>{article.snippet}</p>
-                                        <p><a href={article.web_url}>Go to Full Article</a></p>
-                                        {/* <Link to={"/books/" + book._id}>
-                                            <strong>
-                                                {article.title} by {book.author}
-                                            </strong>
-                                        </Link> */}
-                                        {/* <DeleteBtn onClick={() => this.deleteBook(book._id)} /> */}
+                                        <a className="btn btn-article" target="_blank" href={article.web_url}>Go to Full Article</a>
+                                        <SaveBtn
+                                            onClick={this.handleSaveArticle}
+                                            type="info"
+                                        >
+                                            Save Article
+                                        </SaveBtn>
                                     </ListItem>
                                 ))}
                             </List>
