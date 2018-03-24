@@ -87,25 +87,23 @@ class Saved extends Component {
                 disabled={!(this.state.author && this.state.title)}
                 onClick={this.handleFormSubmit}
               >
-                Submit Book
+                Save Article
               </FormBtn>
             </form>
           </Col>
-          <Col size="md-6 sm-12">
-            <Jumbotron>
-              <h1>Books On My List</h1>
-            </Jumbotron>
-            {this.state.books.length ? (
+          <Col>
+            {this.state.articles.length ? (
               <List>
-                {this.state.books.map(book => {
+                {this.state.books.map(article => {
                   return (
-                    <ListItem key={book._id}>
-                      <a href={"/books/" + book._id}>
-                        <strong>
-                          {book.title} by {book.author}
-                        </strong>
+                    <ListItem key={article._id}>
+                      <a href={"/api/articles" + article._id}>
+                      <h3>{article.headline.main}</h3>
+                      <p>{article.pub_date}</p>
+                      <p>{article.snippet}</p>
+                      <a className="btn btn-article" target="_blank" href={article.web_url}>Go to Full Article</a>
                       </a>
-                      <DeleteBtn onClick={() => this.deleteBook(book._id)} />
+                      {/* <DeleteBtn onClick={() => this.deleteBook(book._id)} /> */}
                     </ListItem>
                   );
                 })}
